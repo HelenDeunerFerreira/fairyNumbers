@@ -3,8 +3,8 @@ import random
 import time
 
 pygame.init()
-#icone = pygame.image.load("assets/ironIcon.png")
-# pygame.display.set_icon(icone)
+icone = pygame.image.load("assets/icone.png")
+pygame.display.set_icon(icone)
 pygame.display.set_caption("Fairy Numbers")
 
 # números
@@ -29,14 +29,25 @@ n18 = pygame.image.load("assets/numbers/18.png")
 n19 = pygame.image.load("assets/numbers/19.png")
 n20 = pygame.image.load("assets/numbers/20.png")
 
+numeros = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10,
+           n11, n12, n13, n14, n15, n16, n17, n18, n19, n20]
+
+
+def numbers():
+    numero = random.choice(numeros)
+    return numero
+
+
+numeroUsado = numbers()
+
+
 largura = 800
 altura = 600
 display = pygame.display.set_mode((largura, altura))
 
 fps = pygame.time.Clock()
-fundo = pygame.image.load("assets/jardim.png")
-iron = pygame.image.load("assets/fada.png")
-#missel = pygame.image.load("assets/missile.png")
+fundo = pygame.image.load("assets/jardim.jpg")
+fada = pygame.image.load("assets/fada.png")
 
 preto = (0, 0, 0)
 branco = (255, 255, 255)
@@ -57,28 +68,30 @@ def message_display(text):
     jogo()
 
 
-def dead(desvios):
-    message_display("Você Morreu com "+str(desvios)+" desvios")
+def dead(acertos):
+    message_display("Você acertou "+str(acertos)+" vezes!")
 
 
-def escrevendoPlacar(desvios):
+def escrevendoPlacar(acertos):
     font = pygame.font.SysFont(None, 25)
-    texto = font.render("Desvios:"+str(desvios), True, branco)
+    texto = font.render("Acertos:"+str(acertos), True, branco)
     display.blit(texto, (0, 0))
 
 
 def jogo():
-    ironPosicaoX = largura * 0.45
-    ironPosicaoY = altura * 0.8
-    ironLargura = 120
-    movimentoX = 0
-    missilPosicaoX = largura * 0.45
-    missilPosicaoY = -220
-    missilLargura = 50
-    missilAltura = 250
-    missilVelocidade = 5
+    global acertos
 
-    desvios = 0
+    fadaPosicaoX = largura * 0.45
+    fadaPosicaoY = altura * 0.8
+    fadaLargura = 1001
+    movimentoX = 0
+    numeroUsadoPosicaoX = largura * 0.45
+    numeroUsadoPosicaoY = -220
+    numeroUsadoLargura = 500
+    numeroUsadoAltura = 500
+    numeroUsadoVelocidade = 5
+
+    acertos = 0
 
     while True:
         for evento in pygame.event.get():
@@ -95,28 +108,27 @@ def jogo():
 
         display.fill(branco)
         display.blit(fundo, (0, 0))
-        ironPosicaoX = ironPosicaoX + movimentoX
+        fadaPosicaoX = fadaPosicaoX + movimentoX
 
-        if ironPosicaoX < 0:
-            ironPosicaoX = 0
-        elif ironPosicaoX > 680:
-            ironPosicaoX = 680
+        if fadaPosicaoX < 0:
+            fadaPosicaoX = 0
+        elif fadaPosicaoX > 680:
+            fadaPosicaoX = 680
 
-        display.blit(iron, (ironPosicaoX, ironPosicaoY))
-        display.blit(missel, (missilPosicaoX, missilPosicaoY))
-        missilPosicaoY = missilPosicaoY + missilVelocidade
+        display.blit(fada, (fadaPosicaoX, fadaPosicaoY))
+        numeroUsadoPosicaoY = numeroUsadoPosicaoY + numeroUsadoVelocidade
 
-        if missilPosicaoY > altura:
-            missilPosicaoY = -220
-            missilVelocidade += 1
-            missilPosicaoX = random.randrange(0, largura-50)
-            desvios = desvios + 1
+        if numeroUsadoPosicaoY > altura:
+            numeroUsadoPosicaoY = -220
+            numeroUsadoVelocidade += 1
+            numeroUsadoPosicaoX = random.randrange(0, largura-50)
+            acertos += 1
 
-        escrevendoPlacar(desvios)
+        escrevendoPlacar(acertos)
 
-        if ironPosicaoY < missilPosicaoY + missilAltura:
-            if ironPosicaoX < missilPosicaoX and ironPosicaoX+ironLargura > missilPosicaoX or missilPosicaoX+missilLargura > ironPosicaoX and missilPosicaoX+missilLargura < ironPosicaoX+ironLargura:
-                dead(desvios)
+        if fadaPosicaoY < numeroUsadoPosicaoY + numeroUsadoAltura:
+            if fadaPosicaoX < numeroUsadoPosicaoX and numeroUsadoPosicaoX + fadaLargura > numeroUsadoPosicaoX or numeroUsadoPosicaoX + numeroUsadoLargura > fadaPosicaoX and numeroUsadoPosicaoX + numeroUsadoLargura < fadaPosicaoX + fadaLargura:
+                dead(acertos)
 
         pygame.display.update()
         fps.tick(60)
