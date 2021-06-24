@@ -33,14 +33,6 @@ numeros = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10,
            n11, n12, n13, n14, n15, n16, n17, n18, n19, n20]
 
 
-def numbers():
-    numero = random.choice(numeros)
-    return numero
-
-
-numeroUsado = numbers()
-
-
 largura = 800
 altura = 600
 display = pygame.display.set_mode((largura, altura))
@@ -51,6 +43,11 @@ fada = pygame.image.load("assets/fada.png")
 
 preto = (0, 0, 0)
 branco = (255, 255, 255)
+
+
+def numbers():
+    numero = random.choice(numeros)
+    return numero
 
 
 def text_objects(texto, fonte):
@@ -68,14 +65,8 @@ def message_display(text):
     jogo()
 
 
-def dead(acertos):
+def contagem(acertos):
     message_display("Você acertou "+str(acertos)+" vezes!")
-
-
-def escrevendoPlacar(acertos):
-    font = pygame.font.SysFont(None, 25)
-    texto = font.render("Acertos:"+str(acertos), True, branco)
-    display.blit(texto, (0, 0))
 
 
 def jogo():
@@ -83,15 +74,16 @@ def jogo():
 
     fadaPosicaoX = largura * 0.45
     fadaPosicaoY = altura * 0.7
-    fadaLargura = 1001
+    fadaLargura = 100
     movimentoX = 0
     numeroUsadoPosicaoX = largura * 0.45
     numeroUsadoPosicaoY = -220
-    numeroUsadoLargura = 500
-    numeroUsadoAltura = 500
+    numeroUsadoLargura = 200
+    numeroUsadoAltura = 125
     numeroUsadoVelocidade = 5
 
     acertos = 0
+    numeroUsado = numbers()
 
     while True:
         for evento in pygame.event.get():
@@ -116,6 +108,8 @@ def jogo():
             fadaPosicaoX = 680
 
         display.blit(fada, (fadaPosicaoX, fadaPosicaoY))
+        display.blit(numeroUsado, (numeroUsadoPosicaoX, numeroUsadoPosicaoY))
+
         numeroUsadoPosicaoY = numeroUsadoPosicaoY + numeroUsadoVelocidade
 
         if numeroUsadoPosicaoY > altura:
@@ -124,11 +118,17 @@ def jogo():
             numeroUsadoPosicaoX = random.randrange(0, largura-50)
             acertos += 1
 
-        escrevendoPlacar(acertos)
+        # if fadaPosicaoY < numeroUsadoPosicaoY + numeroUsadoAltura:
+        #     if ((fadaPosicaoX < numeroUsadoPosicaoX)
+        #             and (numeroUsadoPosicaoX + fadaLargura > numeroUsadoPosicaoX)
+        #             or (numeroUsadoPosicaoX + numeroUsadoLargura > fadaPosicaoX)
+        #             and (numeroUsadoPosicaoX + numeroUsadoLargura < fadaPosicaoX + fadaLargura)):
+        #         contagem(acertos)
 
         if fadaPosicaoY < numeroUsadoPosicaoY + numeroUsadoAltura:
-            if fadaPosicaoX < numeroUsadoPosicaoX and numeroUsadoPosicaoX + fadaLargura > numeroUsadoPosicaoX or numeroUsadoPosicaoX + numeroUsadoLargura > fadaPosicaoX and numeroUsadoPosicaoX + numeroUsadoLargura < fadaPosicaoX + fadaLargura:
-                dead(acertos)
+            if (((fadaPosicaoX < numeroUsadoPosicaoX) and (fadaPosicaoX >= numeroUsadoPosicaoX - fadaLargura))
+                    or ((fadaPosicaoX > numeroUsadoPosicaoX) and (fadaPosicaoX <= numeroUsadoPosicaoX + fadaLargura))):
+                contagem(acertos)
 
         pygame.display.update()
         fps.tick(60)
