@@ -82,7 +82,7 @@ def jogo():
     global acertos
 
     fadaPosicaoX = largura * 0.45
-    fadaPosicaoY = altura * 0.8
+    fadaPosicaoY = altura * 0.7
     fadaLargura = 1001
     movimentoX = 0
     numeroUsadoPosicaoX = largura * 0.45
