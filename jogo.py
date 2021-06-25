@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+from criarLog import criarLog
 
 pygame.init()
 icone = pygame.image.load("assets/icone.png")
@@ -66,14 +67,20 @@ def message_display(text):
 
 
 def contagem(acertos):
-    message_display("Você acertou "+str(acertos)+" vezes!")
+    message_display("Você acertou "+str(acertos)+" vez(es)!")
+
+
+acertos = 0
+criarLog()
+pygame.mixer.music.load('assets/music.mp3')
+pygame.mixer.music.play(-1)
 
 
 def jogo():
     global acertos
 
     fadaPosicaoX = largura * 0.45
-    fadaPosicaoY = altura * 0.7
+    fadaPosicaoY = altura * 0.6
     fadaLargura = 100
     movimentoX = 0
     numeroUsadoPosicaoX = largura * 0.45
@@ -82,7 +89,6 @@ def jogo():
     numeroUsadoAltura = 125
     numeroUsadoVelocidade = 5
 
-    acertos = 0
     numeroUsado = numbers()
 
     while True:
@@ -114,20 +120,13 @@ def jogo():
 
         if numeroUsadoPosicaoY > altura:
             numeroUsadoPosicaoY = -220
-            numeroUsadoVelocidade += 1
+            numeroUsadoVelocidade += 0.3
             numeroUsadoPosicaoX = random.randrange(0, largura-50)
-            acertos += 1
-
-        # if fadaPosicaoY < numeroUsadoPosicaoY + numeroUsadoAltura:
-        #     if ((fadaPosicaoX < numeroUsadoPosicaoX)
-        #             and (numeroUsadoPosicaoX + fadaLargura > numeroUsadoPosicaoX)
-        #             or (numeroUsadoPosicaoX + numeroUsadoLargura > fadaPosicaoX)
-        #             and (numeroUsadoPosicaoX + numeroUsadoLargura < fadaPosicaoX + fadaLargura)):
-        #         contagem(acertos)
 
         if fadaPosicaoY < numeroUsadoPosicaoY + numeroUsadoAltura:
-            if (((fadaPosicaoX < numeroUsadoPosicaoX) and (fadaPosicaoX >= numeroUsadoPosicaoX - fadaLargura))
-                    or ((fadaPosicaoX > numeroUsadoPosicaoX) and (fadaPosicaoX <= numeroUsadoPosicaoX + fadaLargura))):
+            if (((fadaPosicaoX > numeroUsadoPosicaoX) and (fadaPosicaoX >= numeroUsadoPosicaoX - fadaLargura))
+                    or ((fadaPosicaoX < numeroUsadoPosicaoX) and (fadaPosicaoX <= numeroUsadoPosicaoX + fadaLargura))):
+                acertos += 1
                 contagem(acertos)
 
         pygame.display.update()
