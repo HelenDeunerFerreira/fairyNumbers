@@ -8,7 +8,6 @@ icone = pygame.image.load("assets/icone.png")
 pygame.display.set_icon(icone)
 pygame.display.set_caption("Fairy Numbers")
 
-# números
 n1 = pygame.image.load("assets/numbers/1.png")
 n2 = pygame.image.load("assets/numbers/2.png")
 n3 = pygame.image.load("assets/numbers/3.png")
@@ -72,6 +71,7 @@ def contagem(acertos):
 
 acertos = 0
 criarLog()
+
 pygame.mixer.music.load('assets/music.mp3')
 pygame.mixer.music.play(-1)
 

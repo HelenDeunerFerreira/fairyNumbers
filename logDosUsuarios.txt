@@ -1,14 +1,6 @@
+Nome: amanda 
+Email: amanda@gmail.com 
+Nome: jose das flores 
+Email: jose.flores@hotmail.com.br 
 Nome: helen 
-Email: helendeuner@gmail.com 
-Nome: helen 
-Email: helen@gmail.com 
-Nome: helen 
-Email: helendeuner@gmail.com 
-Nome: aaa 
-Email: aaa@ 
-Nome: helen 
-Email: helendeunersfd 
-Nome: aa 
-Email: aa 
-Nome: bbb 
-Email: bbb 
+Email: helendeunerferreira@gmail.com 
